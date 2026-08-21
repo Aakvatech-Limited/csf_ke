@@ -146,6 +146,7 @@ after_migrate = "csf_ke.csf_ke.doctype.tims_hscode.tims_hscode.insert_new_record
 doc_events = {
 	"Purchase Receipt": {"on_submit": "csf_ke.csf_ke.doctype.api.update_item_price_list.update_item_prices"},
 	"Purchase Invoice": {
+		"before_insert": "csf_ke.csf_ke.overrides.withholding.set_purchase_withholding_defaults",
 		"validate": "csf_ke.csf_ke.overrides.withholding.prepare_purchase_withholding_values",
 		"on_submit": [
 			"csf_ke.csf_ke.doctype.api.update_item_price_list.update_item_prices",
@@ -160,6 +161,7 @@ doc_events = {
 		"on_submit": "csf_ke.csf_ke.utils.item_price.update_item_price",
 	},
 	"Sales Invoice": {
+		"before_insert": "csf_ke.csf_ke.overrides.withholding.set_sales_withholding_defaults",
 		"validate": "csf_ke.csf_ke.overrides.withholding.prepare_sales_withholding_values",
 		"before_submit": "csf_ke.csf_ke.overrides.sales_doc.validate_customer_kra",
 		"on_submit": [
