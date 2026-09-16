@@ -1,0 +1,257 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:TWC-{YYYY}-{#####}",
+ "creation": "2026-09-16 14:55:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "source_section",
+  "source_document",
+  "extraction_status",
+  "extraction_log",
+  "certificate_section",
+  "certificate_type",
+  "tax_authority",
+  "country",
+  "certificate_date",
+  "certificate_serial_number",
+  "currency",
+  "withholder_section",
+  "withholder_pin",
+  "withholder_name",
+  "withholder_address",
+  "withholding_agency_number",
+  "withholdee_section",
+  "withholdee_pin",
+  "withholdee_name",
+  "withholdee_address",
+  "transaction_section",
+  "tax_head",
+  "payment_date",
+  "invoice_number",
+  "gross_amount",
+  "withholding_tax_rate",
+  "tax_withheld_amount",
+  "erp_section",
+  "company",
+  "customer",
+  "sales_invoice"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_section",
+   "fieldtype": "Section Break",
+   "label": "Source Document"
+  },
+  {
+   "fieldname": "source_document",
+   "fieldtype": "Attach",
+   "label": "Certificate PDF",
+   "options": "PDF",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "extraction_status",
+   "fieldtype": "Select",
+   "label": "Extraction Status",
+   "options": "Pending\nExtracted\nVerified\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extraction_log",
+   "fieldtype": "Long Text",
+   "label": "Extraction Log",
+   "read_only": 1
+  },
+  {
+   "fieldname": "certificate_section",
+   "fieldtype": "Section Break",
+   "label": "Certificate Details"
+  },
+  {
+   "fieldname": "certificate_type",
+   "fieldtype": "Data",
+   "label": "Certificate Type"
+  },
+  {
+   "fieldname": "tax_authority",
+   "fieldtype": "Data",
+   "label": "Tax Authority"
+  },
+  {
+   "default": "Kenya",
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "certificate_date",
+   "fieldtype": "Date",
+   "label": "Certificate Date"
+  },
+  {
+   "fieldname": "certificate_serial_number",
+   "fieldtype": "Data",
+   "label": "Certificate Serial Number",
+   "unique": 1
+  },
+  {
+   "default": "KES",
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "withholder_section",
+   "fieldtype": "Section Break",
+   "label": "Withholder Details"
+  },
+  {
+   "fieldname": "withholder_pin",
+   "fieldtype": "Data",
+   "label": "PIN of Withholder"
+  },
+  {
+   "fieldname": "withholder_name",
+   "fieldtype": "Data",
+   "label": "Name of Withholder"
+  },
+  {
+   "fieldname": "withholder_address",
+   "fieldtype": "Small Text",
+   "label": "Address of Withholder"
+  },
+  {
+   "fieldname": "withholding_agency_number",
+   "fieldtype": "Data",
+   "label": "VAT Withholding Agency Number"
+  },
+  {
+   "fieldname": "withholdee_section",
+   "fieldtype": "Section Break",
+   "label": "Withholdee Details"
+  },
+  {
+   "fieldname": "withholdee_pin",
+   "fieldtype": "Data",
+   "label": "PIN of Withholdee"
+  },
+  {
+   "fieldname": "withholdee_name",
+   "fieldtype": "Data",
+   "label": "Name of Withholdee"
+  },
+  {
+   "fieldname": "withholdee_address",
+   "fieldtype": "Small Text",
+   "label": "Address of Withholdee"
+  },
+  {
+   "fieldname": "transaction_section",
+   "fieldtype": "Section Break",
+   "label": "Details of Tax Withheld"
+  },
+  {
+   "fieldname": "tax_head",
+   "fieldtype": "Data",
+   "label": "Tax Head"
+  },
+  {
+   "fieldname": "payment_date",
+   "fieldtype": "Date",
+   "label": "Payment Date"
+  },
+  {
+   "fieldname": "invoice_number",
+   "fieldtype": "Data",
+   "label": "Invoice Number"
+  },
+  {
+   "fieldname": "gross_amount",
+   "fieldtype": "Currency",
+   "label": "Gross Amount of Transaction",
+   "options": "currency"
+  },
+  {
+   "fieldname": "withholding_tax_rate",
+   "fieldtype": "Percent",
+   "label": "Withholding Tax Rate"
+  },
+  {
+   "fieldname": "tax_withheld_amount",
+   "fieldtype": "Currency",
+   "label": "Amount of Tax Withheld",
+   "options": "currency"
+  },
+  {
+   "fieldname": "erp_section",
+   "fieldtype": "Section Break",
+   "label": "ERPNext References"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-16 14:55:00.000000",
+ "modified_by": "Administrator",
+ "module": "CSF KE",
+ "name": "Tax Withholding Certificate",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

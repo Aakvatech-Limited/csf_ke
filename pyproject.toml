@@ -9,6 +9,7 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     "qrcode~=7.4.2",
+    "pypdf>=5.0.0,<7.0.0",
 ]
 
 [build-system]
