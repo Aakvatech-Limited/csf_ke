@@ -15,11 +15,9 @@ from frappe.utils import flt, getdate
 class TaxWithholdingCertificate(Document):
 	"""Store a tax withholding certificate and structured data extracted from its PDF."""
 
-	def before_save(self):
+	def validate(self):
 		if self.source_document and (self.is_new() or self.has_value_changed("source_document")):
 			self.extract_from_source_document()
-
-	def validate(self):
 		self.validate_duplicate_certificate()
 		self.validate_amounts()
 
@@ -69,7 +67,10 @@ class TaxWithholdingCertificate(Document):
 		if difference > 1.0:
 			message = _(
 				"Amount check warning: gross amount × withholding rate gives {0}, but the certificate records {1}."
-			).format(frappe.format_value(expected, {"fieldtype": "Currency", "options": self.currency}), self.tax_withheld_amount)
+			).format(
+				frappe.format_value(expected, {"fieldtype": "Currency", "options": self.currency}),
+				self.tax_withheld_amount,
+			)
 			self.extraction_log = "\n".join(filter(None, [self.extraction_log, message]))
 
 	def _match_erpnext_records(self):
@@ -134,17 +135,29 @@ def parse_kra_withholding_certificate(text: str) -> dict:
 		) or _first(clean, r"\b(KRAVW[A-Z0-9-]{8,})\b"),
 		"withholder_pin": _first(clean, r"PIN of Withholder\s*:?\s*([A-Z0-9]+)"),
 		"withholder_name": _line_value(clean, "Name of Withholder"),
-		"withholder_address": _block_value(clean, "Address of Withholder", ["VAT Withholding Agency Number", "Withholder Details", "Withholdee Details"]),
+		"withholder_address": _block_value(
+			clean,
+			"Address of Withholder",
+			["VAT Withholding Agency Number", "Withholder Details", "Withholdee Details"],
+		),
 		"withholding_agency_number": _first(clean, r"VAT Withholding Agency Number\s*:?\s*([A-Z0-9]+)"),
 		"withholdee_pin": _first(clean, r"PIN of Withholdee\s*:?\s*([A-Z0-9]+)"),
 		"withholdee_name": _line_value(clean, "Name of Withholdee"),
-		"withholdee_address": _block_value(clean, "Address of Withholdee", ["Withholdee Details", "Details of Tax Withheld", "Tax Head"]),
+		"withholdee_address": _block_value(
+			clean,
+			"Address of Withholdee",
+			["Withholdee Details", "Details of Tax Withheld", "Tax Head"],
+		),
 		"tax_head": _line_value(clean, "Tax Head"),
 		"payment_date": _date_value(_first(clean, r"Payment Date\s*:?\s*(\d{1,2}/\d{1,2}/\d{4})")),
 		"invoice_number": _first(clean, r"Invoice Number\s*:?\s*([A-Z0-9/.-]+)"),
-		"gross_amount": _number_value(_first(clean, r"Gross Amount of Transaction(?:\s*\([^)]*\))?\s*:?\s*([\d,]+(?:\.\d+)?)")),
+		"gross_amount": _number_value(
+			_first(clean, r"Gross Amount of Transaction(?:\s*\([^)]*\))?\s*:?\s*([\d,]+(?:\.\d+)?)")
+		),
 		"withholding_tax_rate": _number_value(_first(clean, r"Withholding Tax Rate\s*:?\s*([\d.]+)")),
-		"tax_withheld_amount": _number_value(_first(clean, r"Amount of Tax Withheld(?:\s*\([^)]*\))?\s*:?\s*([\d,]+(?:\.\d+)?)")),
+		"tax_withheld_amount": _number_value(
+			_first(clean, r"Amount of Tax Withheld(?:\s*\([^)]*\))?\s*:?\s*([\d,]+(?:\.\d+)?)")
+		),
 	}
 
 	# KRA's PDF extraction may place the serial immediately before the label.
